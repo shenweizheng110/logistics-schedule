@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Layout, Icon, Menu } from 'antd';
-import VehicleContainer from './VehicleContainer';
 import { Route } from 'react-router-dom';
 import { useState,useEffect } from 'react';
-
+import VehicleContainer from './VehicleContainer';
+import OrderContainer from '../containers/OrderContainer';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -35,16 +35,16 @@ const App = (props: any)=>{
                                 <Icon type="car" />车辆管理
                             </Menu.Item>
                             <Menu.Item key="/console/order">
-                                <Icon type="user" />订单管理
+                                <Icon type="shopping-cart" />订单管理
                             </Menu.Item>
                             <Menu.Item key="/console/city">
-                                <Icon type="user" />城市点管理
+                                <Icon type="global" />城市点管理
                             </Menu.Item>
                             <SubMenu
                                 key="/console/scheduleCenter"
                                 title={
                                     <span>
-                                        <Icon type="user" />调度中心
+                                        <Icon type="robot" />调度中心
                                     </span>
                                 }
                             >
@@ -52,13 +52,14 @@ const App = (props: any)=>{
                                 <Menu.Item key="/console/scheduleCentermanualSchedule">手动调度</Menu.Item>
                             </SubMenu>
                             <Menu.Item key="/console/driver">
-                                <Icon type="user" />司机管理
+                                <Icon type="contacts" />司机管理
                             </Menu.Item>
                         </Menu>
                     </Sider>
                     <Layout>
                         <Content className='content'>
                             <Route path='/console/vehicle' component={VehicleContainer} />
+                            <Route path='/console/order' component={OrderContainer} />
                         </Content>
                     </Layout>
                 </Layout>

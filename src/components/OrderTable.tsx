@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Table, Divider, Popconfirm } from 'antd';
-import { VehicleType, VehicleStatus } from '../config/enums';
+import { OrderStatus } from '../config/enums';
 import { tableProps } from '../interfaces';
 
-const VehicleTable = ({
+const OrderTable = ({
     isLoading,
     dataSource,
     page,
@@ -15,35 +15,32 @@ const VehicleTable = ({
     openEditModal
 }:tableProps) => {
     const columns = [{
-        title: '车牌号',
-        dataIndex: 'vehicleLicense',
-        key: 'vehicleLicense'
+        title: '订单编号',
+        dataIndex: 'number',
+        key: 'number'
     },{
-        title: '最大载重',
-        dataIndex: 'maxLoad',
-        key: 'maxLoad'
+        title: '订单名称',
+        dataIndex: 'title',
+        key: 'title'
     },{
-        title: '最大体积',
-        dataIndex: 'maxVolume',
-        key: 'maxVolume'
+        title: '订单重量',
+        dataIndex: 'load',
+        key: 'load'
     },{
-        title: '最大行程',
-        dataIndex: 'maxDayDistance',
-        key: 'maxDayDistance'
+        title: '订单体积',
+        dataIndex: 'volume',
+        key: 'volume'
     },{
-        title: '车辆类型',
-        dataIndex: 'vehicleType',
-        key: 'vehicleType',
-        render: (text: any) => (
-            <span>{VehicleType[text]}</span>
-        )
-    },{
-        title: '车辆状态',
+        title: '订单状态',
         dataIndex: 'status',
         key: 'status',
         render: (text: any) => (
-            <span>{VehicleStatus[text]}</span>
+            <span>{OrderStatus[text]}</span>
         )
+    },{
+        title: '运输车辆',
+        dataIndex: 'vehicleLicense',
+        key: 'vehicleLicense'
     },{
         title: '操作',
         dataIndex: 'action',
@@ -53,7 +50,7 @@ const VehicleTable = ({
                 <a href='javascript:;' onClick={() => openEditModal(record.id)}>编辑</a>
                 <Divider type='vertical' />
                 <Popconfirm title="确认报废吗？" onConfirm={() => handleDelete(record.id)}>
-                    <a href='javascript:;'>报废</a>
+                    <a href='javascript:;'>删除</a>
                 </Popconfirm>
             </span>
         )
@@ -80,4 +77,4 @@ const VehicleTable = ({
     )
 }
 
-export default VehicleTable;
+export default OrderTable;

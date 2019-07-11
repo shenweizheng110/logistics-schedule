@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import VehicleTable from '../components/VehicleTable';
-import { getVehicleList, deleteVehicle, openVehicleEditModal } from '../actions/vehicleAction';
+import OrderTable from '../components/OrderTable';
+import { getOrderList, deleteOrder, openOrderEditModal } from '../actions/orderAction';
 
 const mapStatetoProps = (state: any) => {
     let tableData = state.tableData;
@@ -17,19 +17,19 @@ const mapStatetoProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => ({
     // 处理表格分页
     handleChange: (page: number, pageSize: number) => {
-        dispatch(getVehicleList(page,pageSize));
+        dispatch(getOrderList(page,pageSize));
     },
     // 处理删除确认
     handleDelete: (id: number) => {
-        dispatch(deleteVehicle(id));
+        dispatch(deleteOrder(id));
     },
     // 处理获取当前行记录打开编辑弹窗
     openEditModal: (id: number) => {
-        dispatch(openVehicleEditModal(id));
+        dispatch(openOrderEditModal(id));
     }
 })
 
 export default connect(
     mapStatetoProps,
     mapDispatchToProps
-)( VehicleTable );
+)( OrderTable );

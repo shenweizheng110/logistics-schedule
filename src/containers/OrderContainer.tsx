@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Vehicle from '../components/Vehicle';
+import Order from '../components/Order';
 import { changeDropDown, showModal } from '../actions';
 
 const mapStatetoProps = (state: any) => ({
@@ -18,4 +18,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 export default connect(
     mapStatetoProps,
     mapDispatchToProps
-)(Vehicle);
+)(Order);

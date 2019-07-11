@@ -1,20 +1,12 @@
 import { combineReducers } from 'redux';
-import vehicle from './vehicle';
-
-const msgInfo = (state: any = {type: null, msg: null}, action: any) => {
-    switch(action.type){
-        case 'SHOW_MSG':
-            return {
-                ...state,
-                type: action.msgInfo.type,
-                msg: action.msgInfo.msg
-            };
-        default:
-            return state;
-    }
-}
+import tableData from './tableReducer';
+import { isUnflod, filterData, isShowModal, modalData, msgInfo } from './baseReducer';
 
 export default combineReducers({
-    vehicle,
+    isUnflod,
+    filterData,
+    isShowModal,
+    modalData,
+    tableData,
     msgInfo
 })

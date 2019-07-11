@@ -8,3 +8,9 @@ export enum VehicleStatus {
     scrap = '报废',
     out = '外出'
 }
+
+export enum OrderStatus {
+    undisposed = '未处理',
+    in_transt = '运输中',
+    finished = '已完成'
+}

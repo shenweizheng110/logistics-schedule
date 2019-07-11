@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import VehicleAddModal from '../components/VehicleAddModal';
+import OrderAddModal from '../components/OrderAddModal';
 import { showModal, setModalData } from '../actions';
-import { addVehicle } from '../actions/vehicleAction';
+import { addOrder } from '../actions/orderAction';
 
 const mapStateToProps = (state: any) => ({
     isShowModal: state.isShowModal,
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     handleModalSubmit: (form: any) => {
         form.validateFieldsAndScroll((errs: any,values: any) => {
             if(!errs){
-                dispatch(addVehicle(values));
+                dispatch(addOrder(values));
                 form.resetFields();
             }
         })
@@ -30,5 +30,5 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(
-    VehicleAddModal
+    OrderAddModal
 )

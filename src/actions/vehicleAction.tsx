@@ -16,7 +16,7 @@ export const getVehicleList = (page: number, pageSize: number) => {
             params: {
                 page,
                 pageSize,
-                filterData: getState().vehicle.filterData
+                filterData: getState().filterData
             }
         }).then(res => {
             if(res.data.code === 0){
@@ -47,7 +47,7 @@ export const getVehicleList = (page: number, pageSize: number) => {
 // 添加车辆
 export const addVehicle = (vehicleInfo: any) => {
     return (dispatch: any, getState: any) => {
-        let modalData = getState().vehicle.modalData;
+        let modalData = getState().modalData;
         if(modalData.id){
             axios.put('/api/vehicle/info',{
                 ...vehicleInfo,

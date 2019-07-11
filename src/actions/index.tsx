@@ -1,5 +1,4 @@
 import * as types from '../constants/ActionTypes';
-import axios from '../common/request';
 
 // 修改筛选面板的开关
 export const changeDropDown = (isUnflod: boolean) => ({
@@ -53,6 +52,7 @@ export const setModalData = (modalData: any) => ({
     modalData
 })
 
+// 添加 修改 关闭弹窗统一操作
 export const closeModalCommonAction = (res: any, getDataListAction: any) => {
     return (dispatch: any, getState: any) => {
         if(res.data.code === 0){

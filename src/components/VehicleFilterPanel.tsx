@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { Form, Button, Input, Select } from 'antd';
+import { filterPanelProps } from '../interfaces';
 
 const Option = Select.Option;
 
-interface VehicleFilterPanelProp {
-    form: any,
-    handleFilterSubmit: (form: any) => void,
-    handleResetFilter: (form: any) => void
-}
-
-const VehicleFilterPanel = ({ form, handleFilterSubmit, handleResetFilter}: any) => {
+const VehicleFilterPanel = ({
+    form,
+    handleFilterSubmit,
+    handleResetFilter
+}: filterPanelProps) => {
     const { getFieldDecorator } = form;
 
     return (
@@ -77,4 +76,4 @@ const VehicleFilterPanel = ({ form, handleFilterSubmit, handleResetFilter}: any)
     )
 }
 
-export default Form.create<VehicleFilterPanelProp>()(VehicleFilterPanel);
+export default Form.create<filterPanelProps>()(VehicleFilterPanel);

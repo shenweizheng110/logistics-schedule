@@ -3,18 +3,13 @@ import PageHeader from './PageHeader';
 import VehicleFilterPanelContainer from '../containers/VehicleFilterPanelContainer';
 import VehicleTableContainer from '../containers/VehicleTableContainer';
 import VehicleAddModalContainer from '../containers/VehicleAddModalContainer';
-
-type VehicleProp = {
-    isUnflod: boolean,
-    showFilterPanel: (isUnflod: boolean) => void,
-    handleShowModal: (isShowModal: boolean) => void
-}
+import { listProps } from '../interfaces';
 
 const Vehicle = ({
     isUnflod,
     showFilterPanel,
     handleShowModal
-}: VehicleProp) => {
+}: listProps) => {
     return(
         <>
             <PageHeader

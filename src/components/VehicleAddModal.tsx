@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Form, Modal, Input, Select, InputNumber } from 'antd';
 import { VehicleType, VehicleStatus } from '../config/enums'
+import { modalProps } from '../interfaces';
 
 const Option = Select.Option;
 const formItemLayout = {
@@ -24,21 +25,13 @@ for(let item in VehicleStatus){
     vehicleStatusOptions.push(<Option value={item}>{VehicleStatus[item]}</Option>);
 }
 
-interface VehicleAddModalProp {
-    isShowModal: boolean,
-    form: any,
-    modalData: any,
-    handleModalSubmit: (form: any) => void,
-    handleCloseModal: (form: any) => void
-}
-
 const VehicleAddModal = ({
     isShowModal,
     form,
     modalData,
     handleModalSubmit,
     handleCloseModal
-}: VehicleAddModalProp) => {
+}: modalProps) => {
     const { getFieldDecorator } = form;
     return (
         <Modal
@@ -139,4 +132,4 @@ const VehicleAddModal = ({
     )
 }
 
-export default Form.create<VehicleAddModalProp>()(VehicleAddModal);
+export default Form.create<modalProps>()(VehicleAddModal);

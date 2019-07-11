@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Button, Icon } from 'antd';
+import { pageHeaderProp } from '../interfaces';
 
-interface PageHeaderProps{
-    title: string
-    isUnflod: boolean,
-    showFilterPanel: (isUnflod: boolean) => void,
-    handleShowModal: (isShowModal: boolean) => void
-}
-
-const PageHeader = ({isUnflod, showFilterPanel, title, handleShowModal}:PageHeaderProps) => {
+const PageHeader = ({
+    isUnflod,
+    showFilterPanel,
+    title,
+    handleShowModal
+}:pageHeaderProp) => {
     return(
         <>
             <div className='page-title'>{title}</div>

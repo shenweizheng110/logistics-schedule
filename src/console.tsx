@@ -26,6 +26,8 @@ const store = createStore(
     applyMiddleware(...middleware)
 );
 
+console.log(store.getState());
+
 store.subscribe(() => {
     let msgInfo = store.getState().msgInfo;
     if(msgInfo.msg){
