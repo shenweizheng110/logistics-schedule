@@ -1,9 +1,15 @@
 import * as React from 'react';
-import { Layout, Icon, Menu } from 'antd';
+import { Layout, Icon, Menu, Avatar, Dropdown } from 'antd';
 import { Route } from 'react-router-dom';
-import { useState,useEffect } from 'react';
-import VehicleContainer from './VehicleContainer';
-import OrderContainer from '../containers/OrderContainer';
+import { useState } from 'react';
+import VehicleContainer from './vehicleContainer/VehicleContainer';
+import OrderContainer from './orderContainer/OrderContainer';
+import CityContainer from './cityContainer/CityContainer';
+import DriverContainer from './driverContainer/DriverContainer';
+import ScheduleCenter from '../components/schedule/ScheduleCenter';
+import ScheduleManual from '../components/schedule/ScheduleManual';
+import SystemLog from '../components/systemLog/SystemLog';
+
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -15,12 +21,29 @@ const App = (props: any)=>{
         props.history.push(`${e.key}`);
         setSelectedKeys(e.key)
     }
+    const dropDownMenu = (
+        <Menu>
+            <Menu.Item key="personalInfo">个人信息</Menu.Item>
+            <Menu.Item key="logout">退出登陆</Menu.Item>
+        </Menu>
+    )
     return(
         <>
             <Layout style={{height: '100%'}}>
                 <Header className="header">
                     <div className="logo">
                         <img src={QINIU + "logo.png"} alt="logo" />
+                    </div>
+                    <div className='header-right'>
+                        <Dropdown
+                            overlay={dropDownMenu}
+                            overlayStyle={{top: '60px'}}
+                        >
+                            <span>
+                                <Avatar className='avatar' src={QINIU + 'head2.jpg'} size={50} alt='头像' />
+                                <Icon type="down" className='drop-down-icon' />
+                            </span>
+                        </Dropdown>
                     </div>
                 </Header>
                 <Layout>
@@ -37,29 +60,30 @@ const App = (props: any)=>{
                             <Menu.Item key="/console/order">
                                 <Icon type="shopping-cart" />订单管理
                             </Menu.Item>
-                            <Menu.Item key="/console/city">
+                            <Menu.Item key="/console/city/list">
                                 <Icon type="global" />城市点管理
                             </Menu.Item>
-                            <SubMenu
-                                key="/console/scheduleCenter"
-                                title={
-                                    <span>
-                                        <Icon type="robot" />调度中心
-                                    </span>
-                                }
-                            >
-                                <Menu.Item key="/console/scheduleCenter/autoSchedule">自动调度</Menu.Item>
-                                <Menu.Item key="/console/scheduleCentermanualSchedule">手动调度</Menu.Item>
-                            </SubMenu>
+                            <Menu.Item key="/console/schedule/center">
+                                <Icon type="robot" />调度中心
+                            </Menu.Item>
                             <Menu.Item key="/console/driver">
                                 <Icon type="contacts" />司机管理
+                            </Menu.Item>
+                            <Menu.Item key="/console/systemLog">
+                                <Icon type="sound" />系统日志
                             </Menu.Item>
                         </Menu>
                     </Sider>
                     <Layout>
                         <Content className='content'>
-                            <Route path='/console/vehicle' component={VehicleContainer} />
-                            <Route path='/console/order' component={OrderContainer} />
+                            <Route exact path='/console/vehicle' component={VehicleContainer} />
+                            <Route exact path='/console/order' component={OrderContainer} />
+                            <Route exact path='/console/city/:type' component={CityContainer} />
+                            <Route exact path='/console/driver' component={DriverContainer} />
+                            <Route exact path='/console/systemLog' component={SystemLog} />
+                            <Route exact path='/console/schedule/center' component={ScheduleCenter} />
+                            <Route exact path='/console/schedule/manual' component={ScheduleManual} />
+                            <div className='footer'></div>
                         </Content>
                     </Layout>
                 </Layout>

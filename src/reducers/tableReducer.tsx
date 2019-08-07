@@ -22,6 +22,7 @@ const initialState: tableProps = {
 const isLoading = (state = initialState.isLoading, action: any) => {
     switch(action.type){
         case 'CHANGE_TABLE_LAODING':
+        case 'CLEAR_DATA':
             return action.isLoading;
         default:
             return state;
@@ -38,6 +39,13 @@ const pagination = (state = initialState.pagination, action: any) => {
                 dataSource: action.dataSource,
                 pageSize: action.pageSize
             };
+        case 'CLEAR_DATA':
+            return {
+                total: action.total,
+                page: action.page,
+                dataSource: [],
+                pageSize: action.pageSize
+            }
         default:
             return state;
     }

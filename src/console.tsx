@@ -26,8 +26,7 @@ const store = createStore(
     applyMiddleware(...middleware)
 );
 
-console.log(store.getState());
-
+// 订阅  error 显示error后清空error
 store.subscribe(() => {
     let msgInfo = store.getState().msgInfo;
     if(msgInfo.msg){

@@ -1,4 +1,7 @@
 import * as types from '../constants/ActionTypes';
+import axios from '../common/request';
+import { deleteAction, openEditModalAction } from './commonAction';
+import { getCityListApi, deleteCityApi, getCityApi } from '../api';
 
 // 修改筛选面板的开关
 export const changeDropDown = (isUnflod: boolean) => ({
@@ -16,7 +19,7 @@ type tableBaseData = {
     page: number,
     pageSize: number,
     total: number,
-    dataSource: [],
+    dataSource: any,
 }
 
 // 下一页或筛选操作
@@ -52,22 +55,150 @@ export const setModalData = (modalData: any) => ({
     modalData
 })
 
-// 添加 修改 关闭弹窗统一操作
-export const closeModalCommonAction = (res: any, getDataListAction: any) => {
-    return (dispatch: any, getState: any) => {
-        if(res.data.code === 0){
+// 展示订单详情弹窗
+export const showDetailModal = (isShowDetailModal: any) => ({
+    type: types.SHOW_DETAIL_MODAL,
+    isShowDetailModal
+})
+
+// 获取城市距离
+export const getAllCity = (citys: any) => ({
+    type: types.GET_ALL_CITY,
+    citys
+})
+
+// 获取城市列表
+const setCityList = (cityList: any) => ({
+    type: types.GET_CITY_LIST,
+    cityList
+})
+
+// 获取城市距离
+export const getCityList = () => {
+    return (dispatch: any) => {
+        axios.get('/api/city/all')
+            .then((res: any) => {
+                if(res.data.code === 0){
+                    dispatch(setCityList(res.data.data));
+                }else{
+                    dispatch({
+                        type: 'error',
+                        msg: res.data.msg
+                    })
+                }
+            })
+            .catch((error: any) => {
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: error
+                }))
+            })
+    }
+}
+
+// 获取所有的城市点距离
+export const getCityDistance = () => {
+    return (dispatch: any) => {
+        axios.get('/api/city/distance')
+        .then(res => {
+            if(res.data.code === 0){
+                dispatch(getAllCity({
+                    nodes: [],
+                    links: []
+                }));
+                dispatch(getAllCity(res.data.data));
+            }else{
+                dispatch({
+                    type: 'error',
+                    msg: res.data.msg
+                })
+            }
+        })
+        .catch(error => {
             dispatch(showMsg({
-                type: 'success',
-                msg: res.data.msg
-            }));
-            dispatch(setModalData({}));
-            dispatch(showModal(false));
-            dispatch(getDataListAction(1,10));
-        }else{
+                    type: 'error',
+                    msg: error
+                }))
+        })
+    }
+}
+
+// 清空页面数据
+export const clearData = () => ({
+    type: types.CLEAR_DATA,
+    isUnflod: false,
+    modalData: {},
+    filterData: {},
+    isShowModal: false,
+    isShowDetailModal: false,
+    isLoading: false,
+    page: 1,
+    pageSize: 10,
+    total: 0,
+    isCityDistanceUnflod: false
+})
+
+// 检查城市状态
+export const checkCityStatus = (cityId: number, type: string) => {
+    return (dispatch: any) => {
+        return axios.get('/api/city/checkCityStatus',{
+            params: {
+                cityId
+            }
+        }).then((res: any) => {
+            if(res.data.code === 0){
+                if(res.data.data === 0){
+                    if(type === 'edit')
+                        dispatch(openEditModalAction(getCityApi ,cityId));
+                    else
+                        dispatch(deleteAction(deleteCityApi ,cityId, getCityListApi));
+                }else{
+                    dispatch(showMsg({
+                        type: 'warn',
+                        msg: '城市点使用中，不可操作'
+                    }))
+                }
+            }else{
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: res.data.msg
+                }))
+            }
+        }).catch((error: any) => {
             dispatch(showMsg({
                 type: 'error',
-                msg: res.data.msg
-            }));
-        }
+                    msg: error
+            }))
+        })
+    }
+}
+
+// 城市距离筛选面板确认
+export const handleCityDistanceFilter = (startCityName: string, targetCityName: string) => {
+    return (dispatch: any) => {
+        axios.get('/api/city/distance',{
+            params: {
+                startCityName,
+                targetCityName
+            }
+        }).then((res: any) => {
+            if(res.data.code === 0){
+                dispatch(getAllCity({
+                    nodes: [],
+                    links: []
+                }));
+                dispatch(getAllCity(res.data.data));
+            }else{
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: res.data.msg
+                }))
+            }
+        }).catch((error: any) => {
+            dispatch(showMsg({
+                type: 'error',
+                    msg: error
+            }))
+        })
     }
 }

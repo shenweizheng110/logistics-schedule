@@ -7,7 +7,9 @@ export interface filterPanelProps {
 export interface listProps {
     isUnflod: boolean,
     showFilterPanel: (isUnflod: boolean) => void,
-    handleShowModal: (isShowModal: boolean) => void
+    handleShowModal: (isShowModal: boolean) => void,
+    history?: any,
+    handleClearPage?: () => void
 }
 
 export interface tableProps {
@@ -17,8 +19,8 @@ export interface tableProps {
     pageSize: number,
     dataSource: any,
     handleChange: (page: number, pageSize?: number) => void,
-    handleDelete: (id: number) => void,
-    openEditModal: (id: number) => void
+    handleDelete?: (id: number) => void,
+    openEditModal?: (id: number) => void
 }
 
 export interface modalProps {
@@ -32,6 +34,7 @@ export interface modalProps {
 export interface pageHeaderProp {
     title: string
     isUnflod: boolean,
+    slot?: any,
     showFilterPanel: (isUnflod: boolean) => void,
     handleShowModal: (isShowModal: boolean) => void
 }

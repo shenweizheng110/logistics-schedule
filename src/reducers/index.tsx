@@ -1,6 +1,16 @@
 import { combineReducers } from 'redux';
 import tableData from './tableReducer';
-import { isUnflod, filterData, isShowModal, modalData, msgInfo } from './baseReducer';
+import {
+    isUnflod,
+    filterData,
+    isShowModal,
+    modalData,
+    msgInfo,
+    citys,
+    cityList,
+    isShowDetailModal,
+    isCityUsing
+} from './baseReducer';
 
 export default combineReducers({
     isUnflod,
@@ -8,5 +18,9 @@ export default combineReducers({
     isShowModal,
     modalData,
     tableData,
-    msgInfo
+    msgInfo,
+    citys,
+    cityList,
+    isShowDetailModal,
+    isCityUsing
 })
