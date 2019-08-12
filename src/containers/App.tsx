@@ -6,8 +6,8 @@ import VehicleContainer from './vehicleContainer/VehicleContainer';
 import OrderContainer from './orderContainer/OrderContainer';
 import CityContainer from './cityContainer/CityContainer';
 import DriverContainer from './driverContainer/DriverContainer';
-import ScheduleCenter from '../components/schedule/ScheduleCenter';
-import ScheduleManual from '../components/schedule/ScheduleManual';
+import ScheduleCenterContainer from '../containers/scheduleContainer/ScheduleCenterContainer';
+import ScheduleManualContainer from '../containers/scheduleContainer/ScheduleManualContainer';
 import SystemLog from '../components/systemLog/SystemLog';
 
 const { SubMenu } = Menu;
@@ -81,8 +81,8 @@ const App = (props: any)=>{
                             <Route exact path='/console/city/:type' component={CityContainer} />
                             <Route exact path='/console/driver' component={DriverContainer} />
                             <Route exact path='/console/systemLog' component={SystemLog} />
-                            <Route exact path='/console/schedule/center' component={ScheduleCenter} />
-                            <Route exact path='/console/schedule/manual' component={ScheduleManual} />
+                            <Route exact path='/console/schedule/center' component={ScheduleCenterContainer} />
+                            <Route exact path='/console/schedule/manual' component={ScheduleManualContainer} />
                             <div className='footer'></div>
                         </Content>
                     </Layout>

@@ -1,21 +1,20 @@
 import * as React from 'react';
-import { Table } from 'antd';
-import { tableProps } from '../../../interfaces';
-import AllocatOrderModal from './AllocatOrderModal';
-import AllocatRouteModal from './AllocatRouteModal';
+import { Table, Button } from 'antd';
+import AllocatOrderModalContainer from '../../../containers/scheduleContainer/scheduleManual/AllocatOrderModalContainer';
+import AllocatRouteModalContainer from '../../../containers/scheduleContainer/scheduleManual/AllocatRouteModalContainer';
 
-interface AllocatOrderRouteProps extends tableProps {
-    current: number
+interface AllocatOrderRouteProps {
+    vehicleSelectedRows: any,
+    currentStep: number,
+    toNextStep: (current: number) => void,
+    openAllocatModal: (type: string, vehicleLicense: string) => void
 }
 
-const AllocatOrder = ({
-    handleChange,
-    isLoading,
-    page,
-    total,
-    pageSize,
-    dataSource,
-    current
+const AllocatOrderRoute = ({
+    vehicleSelectedRows,
+    currentStep,
+    toNextStep,
+    openAllocatModal
 }: AllocatOrderRouteProps) => {
     const columns = [
     {
@@ -45,11 +44,11 @@ const AllocatOrder = ({
         render: (text: any) => (
             <span>
                 {
-                    text && text.length === 0
+                    !text || text.length === 0
                         ? <span>无</span>
                         : text
                         .map((item: any, index: number) => (
-                            <span>${item}{index === text.length ? '' : ';'}</span>
+                            <span>{item}{index === text.length - 1 ? '' : '-'}</span>
                         ))
                 }
             </span>
@@ -60,7 +59,17 @@ const AllocatOrder = ({
         key: 'action',
         render: (text: any, record: any) => (
             <span>
-                <a href="javascript:;">{current === 1 ? '分配订单' : '分配路线'}</a>
+                <a
+                    href="javascript:;"
+                    onClick={() => {
+                        openAllocatModal(
+                            currentStep === 1 ? 'order' : 'route',
+                            record.vehicleLicense
+                        )
+                    }}
+                >
+                    {currentStep === 1 ? '分配订单' : '分配路线'}
+                </a>
             </span>
         )
     }];
@@ -68,36 +77,31 @@ const AllocatOrder = ({
         <>
             <Table
                 columns={columns}
-                dataSource={dataSource}
-                pagination={{
-                    current: page,
-                    total,
-                    pageSize,
-                    onChange: handleChange
-                }}
+                dataSource={vehicleSelectedRows}
             />
+            <div className='card-footer'>
+                <Button
+                    type='primary'
+                    className='next-step'
+                    onClick={() => toNextStep(++currentStep)}
+                >
+                    下一步
+                </Button>
+                <Button
+                    type='primary'
+                    className='next-step'
+                    onClick={() => toNextStep(--currentStep)}
+                >
+                    上一步
+                </Button>
+            </div>
             {
-                current === 1
-                ? <AllocatOrderModal
-                    isShowModal={false}
-                    orders={[{
-                        number: '20161231231',
-                        load: 80,
-                        volume: 2,
-                        currentCityName: '南京',
-                        targetCityName: '苏州'
-                    }]}
-                />
-                : <AllocatRouteModal
-                    isShowModal={true}
-                    currentCity={{
-                        currentCityId: 10,
-                        currentCityName: 'A'
-                    }}
-                />
+                currentStep === 1
+                ? <AllocatOrderModalContainer />
+                : <AllocatRouteModalContainer />
             }
         </>
     )
 }
 
-export default AllocatOrder;
+export default AllocatOrderRoute;

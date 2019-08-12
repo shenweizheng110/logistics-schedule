@@ -1,6 +1,13 @@
 import * as React from 'react';
-import { Table, Divider } from 'antd';
+import { Table, Divider, Button } from 'antd';
 import { VehicleType, VehicleStatus } from '../../../config/enums';
+
+type ScheduleManualDetailProps = {
+    usedVehicles: any,
+    handleOrders: any,
+    currentStep: number,
+    toPreStep: (currentStep: number) => void
+}
 
 const vehcileColumns = [{
     title: '车牌号',
@@ -22,10 +29,6 @@ const vehcileColumns = [{
     title: '最大体积',
     dataIndex: 'maxVolume',
     key: 'maxVolume'
-},{
-    title: '最大行程',
-    dataIndex: 'maxDayDistance',
-    key: 'maxDayDistance'
 },{
     title: '初始速度',
     dataIndex: 'baseSpeed',
@@ -63,19 +66,24 @@ const orderColumns = [{
     dataIndex: 'vehicleLicense',
 },{
     title: '重量',
-    dataIndex: 'load',
+    dataIndex: 'orderLoad',
 },{
     title: '体积',
-    dataIndex: 'volume',
+    dataIndex: 'orderVolume',
 },{
     title: '起始点',
-    dataIndex: 'currentCityName',
+    dataIndex: 'startCityName',
 },{
     title: '目的点',
     dataIndex: 'targetCityName',
 }]
 
-const ScheduleManualDetail = () => {
+const ScheduleManualDetail = ({
+    usedVehicles,
+    handleOrders,
+    currentStep,
+    toPreStep
+}: ScheduleManualDetailProps) => {
     return (
         <>
             <div className='manual-detail-item'>
@@ -116,14 +124,31 @@ const ScheduleManualDetail = () => {
                 <div className='manual-detail-item-title'>预使用车辆</div>
                 <Table
                     columns={vehcileColumns}
+                    dataSource={usedVehicles}
                 />
             </div>
-            <Divider />
             <div className='manual-detail-item'>
                 <div className='manual-detail-item-title'>预处理订单</div>
                 <Table
                     columns={orderColumns}
+                    dataSource={handleOrders}
                 />
+            </div>
+            <div className='card-footer'>
+                <Button
+                    type='primary'
+                    className='next-step'
+                    onClick={() => toPreStep(--currentStep)}
+                >
+                    下一步
+                </Button>
+                <Button
+                    type='primary'
+                    className='next-step'
+                    onClick={() => toPreStep(--currentStep)}
+                >
+                    确认
+                </Button>
             </div>
         </>
     )

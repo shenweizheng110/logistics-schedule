@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { Modal, Transfer, Table } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type AllocatOrderModalProps = {
-    isShowModal: boolean,
-    orders: any
+    isShowAllocatOrderModal: boolean,
+    orderList: any,
+    currentTargetKeys: any,
+    handleAllocatSubmit: (nextTargetKeys: any) => void,
+    handleCloseModal: () => void,
+    handleOrderChange: (nextTargetKeys: any) => void,
+    getAllUndispoedOrders: () => void
 }
 
 type TableTransferProps = {
@@ -74,13 +79,13 @@ const leftTableColumns = [{
     dataIndex: 'number',
 },{
     title: '重量',
-    dataIndex: 'load',
+    dataIndex: 'orderLoad',
 },{
     title: '体积',
-    dataIndex: 'volume',
+    dataIndex: 'orderVolume',
 },{
     title: '起始点',
-    dataIndex: 'currentCityName',
+    dataIndex: 'startCityName',
 },{
     title: '目的点',
     dataIndex: 'targetCityName',
@@ -92,29 +97,33 @@ const rightTableColumns = [{
 }];
 
 const AllocatOrderModal = ({
-    isShowModal,
-    orders
+    isShowAllocatOrderModal,
+    orderList,
+    currentTargetKeys,
+    handleAllocatSubmit,
+    handleCloseModal,
+    getAllUndispoedOrders,
+    handleOrderChange
 }: AllocatOrderModalProps) => {
-    // 已经选中的数组 出现在右边的
-    const [targetKeys, setTargetKeys] = useState([]);
-    // 两栏之间转移的 change 函数
-    const handleChange = (nextTargetKeys: any) => {
-        setTargetKeys(nextTargetKeys);
-    };
-
+    // 获取所有的订单列表
+    useEffect(() => {
+        getAllUndispoedOrders();
+    }, []);
     return (
         <>
             <Modal
                 title='订单分配'
                 width={1000}
-                visible={isShowModal}
+                visible={isShowAllocatOrderModal}
                 destroyOnClose={true}
+                onCancel={handleCloseModal}
+                onOk={() => handleAllocatSubmit(currentTargetKeys)}
             >
                 <TableTransfer
                     titles={['未处理','已选中']}
-                    dataSource={orders}
-                    targetKeys={targetKeys}
-                    onChange={handleChange}
+                    dataSource={orderList}
+                    targetKeys={currentTargetKeys}
+                    onChange={handleOrderChange}
                     leftColumns={leftTableColumns}
                     rightColumns={rightTableColumns}
                 />

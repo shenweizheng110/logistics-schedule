@@ -9,7 +9,20 @@ import {
     citys,
     cityList,
     isShowDetailModal,
-    isCityUsing
+    isCityUsing,
+    currentStep,
+    vehicleSelected,
+    isShowAllocatOrderModal,
+    isShowAllocatRouteModal,
+    orderTargetKeys,
+    currentAllocatVehicle,
+    orderList,
+    orderListJson,
+    currentTargetKeys,
+    vehicleRoute,
+    currentVehicleRoute,
+    pageLoading,
+    scheduleIntro
 } from './baseReducer';
 
 export default combineReducers({
@@ -22,5 +35,18 @@ export default combineReducers({
     citys,
     cityList,
     isShowDetailModal,
-    isCityUsing
+    isCityUsing,
+    currentStep,
+    vehicleSelected,
+    isShowAllocatOrderModal,
+    isShowAllocatRouteModal,
+    orderTargetKeys,
+    currentAllocatVehicle,
+    orderList,
+    orderListJson,
+    currentTargetKeys,
+    vehicleRoute,
+    currentVehicleRoute,
+    pageLoading,
+    scheduleIntro
 })

@@ -1,74 +1,30 @@
 import * as React from 'react';
 import { Steps } from 'antd';
-import { useState } from 'react';
-import VehicleChoose from './ScheduleManual/VehicleChoose';
-import AllocatOrderRoute from './ScheduleManual/AllocatOrderRoute';
-import ScheduleManualDetail from './ScheduleManual/ScheduleManualDetail';
+import VehicleChooseContainer from '../../containers/scheduleContainer/scheduleManual/VehicleChooseContainer';
+import AllocatOrderRouteContainer from '../../containers/scheduleContainer/scheduleManual/AllocatOrderRouteContainer';
+import ScheduleManualDetailContainer from '../../containers/scheduleContainer/scheduleManual/ScheduleManualDetailContainer';
 
 const { Step } = Steps;
-const pageChange = (page: number, pageSize: number) => {
-
+type ScheduleManualProps = {
+    currentStep: number,
 }
-const stepList = [{
-    title: '选择车辆',
-    content: <VehicleChoose
-        isLoading={false}
-        page={1}
-        total={1}
-        pageSize={10}
-        dataSource={[{
-            vehicleLicense: 'asdasda',
-            maxLoad: 100,
-            maxVolume: 12,
-            baseSpeed: 20,
-            vehicleType: 'van',
-            status: 'unused'
-        }]}
-        handleChange={pageChange}
-    />
-},{
-    title: '分配订单',
-    content: <AllocatOrderRoute
-        isLoading={false}
-        page={1}
-        total={1}
-        pageSize={10}
-        dataSource={[{
-            vehicleLicense: 'asdasda',
-            currentLoad: 1,
-            maxLoad: 100,
-            currentVolume: 2,
-            maxVolume: 12,
-            midwayCityNames: []
-        }]}
-        handleChange={pageChange}
-        current={1}
-    />
-},{
-    title: '分配路线',
-    content: <AllocatOrderRoute
-        isLoading={false}
-        page={1}
-        total={1}
-        pageSize={10}
-        dataSource={[{
-            vehicleLicense: 'asdasda',
-            currentLoad: 1,
-            maxLoad: 100,
-            currentVolume: 2,
-            maxVolume: 12,
-            midwayCityNames: []
-        }]}
-        handleChange={pageChange}
-        current={2}
-    />
-},{
-    title: '调度详情',
-    content: <ScheduleManualDetail />
-}]
 
-const ScheduleManual = () => {
-    const [current, setCurrent] = useState(3);
+const ScheduleManual = ({
+    currentStep
+}: ScheduleManualProps) => {
+    const stepList = [{
+        title: '选择车辆',
+        content: <VehicleChooseContainer />
+    },{
+        title: '分配订单',
+        content: <AllocatOrderRouteContainer />
+    },{
+        title: '分配路线',
+        content: <AllocatOrderRouteContainer />
+    },{
+        title: '调度详情',
+        content: <ScheduleManualDetailContainer />
+    }];
     return (
         <>
             <div className='page-header'>
@@ -79,7 +35,7 @@ const ScheduleManual = () => {
                     <div className='card'>
                         <div className='card-body'>
                             <div className='schedule-manual-steps'>
-                                <Steps current={current}>
+                                <Steps current={currentStep}>
                                     {
                                         stepList.map(item => (
                                             <Step key={item.title} title={item.title} />
@@ -88,7 +44,7 @@ const ScheduleManual = () => {
                                 </Steps>
                                 <div className="steps-content">
                                     {
-                                        stepList[current].content
+                                        stepList[currentStep].content
                                     }
                                 </div>
                             </div>

@@ -3,13 +3,13 @@ import { Chart, Axis, Coord, Geom, Guide, Shape } from 'bizcharts';
 
 const { Html, Arc } = Guide;
 
-function creatData() {
+/* function creatData() {
     const data = [];
     let val: any = Math.random() * 6;
     val = val.toFixed(1);
     data.push({ value: val * 1 });
     return data;
-}
+} */
 
 Shape.registerShape('point', 'pointer', {
     drawShape(cfg: any, group: any) {
@@ -48,15 +48,23 @@ const color = ['#0086FA', '#FFBF00', '#F5222D'];
 const cols = {
     value: {
         min: 0,
-        max: 6,
+        max: 10,
         tickInterval: 1,
         nice: false,
     },
 };
 
-const VehicleNoloadRate = () => {
-    const lineWidth: number = 15,
-        data: any = creatData();
+type VehicleNoloadRateProps = {
+    noLoadRate: number
+}
+
+const VehicleNoloadRate = ({
+    noLoadRate
+}: VehicleNoloadRateProps) => {
+    const data = [{
+        value: noLoadRate * 1
+    }]
+    const lineWidth: number = 15;
     const val = data[0].value;
     return (
         <div className='card schedule-center-detail-item'>
@@ -94,13 +102,13 @@ const VehicleNoloadRate = () => {
                         <Arc
                             // zIndex={0}
                             start={[0, 0.965]}
-                            end={[6, 0.965]}
+                            end={[10, 0.965]}
                             style={{ // 底灰色
                                 stroke: 'rgba(0, 0, 0, 0.09)',
                                 lineWidth,
                             }}
                         />
-                        {val >= 2 && <Arc
+                        {val >= 5 && <Arc
                             // zIndex={1}
                             start={[0, 0.965]}
                             end={[val, 0.965]}
@@ -109,47 +117,42 @@ const VehicleNoloadRate = () => {
                                 lineWidth,
                             }}
                         />}
-                        { val >= 4 &&
-                        <Arc
+                        { val >= 8 && <Arc
                             // zIndex={1}
-                            start={[2, 0.965]}
-                            end={[4, 0.965]}
+                            start={[5, 0.965]}
+                            end={[8, 0.965]}
                             style={{ // 底灰色
                                 stroke: color[1],
                                 lineWidth,
                             }}
-                        />}
-                        { val >= 4 && val < 6 &&
-                        <Arc
+                            />}
+                        { val >= 8 && val < 10 && <Arc
                             // zIndex={1}
-                            start={[4, 0.965]}
+                            start={[8, 0.965]}
                             end={[val, 0.965]}
                             style={{ // 底灰色
                                 stroke: color[2],
                                 lineWidth,
                             }}
-                        />}
-                        { val >= 2 && val < 4 &&
-                        <Arc
+                            />}
+                        { val >= 5 && val < 8 && <Arc
                             // zIndex={1}
-                            start={[2, 0.965]}
+                            start={[5, 0.965]}
                             end={[val, 0.965]}
                             style={{ // 底灰色
                                 stroke: color[1],
                                 lineWidth,
                             }}
-                        />}
-                        { val < 2 &&
-                            <Arc
+                            />}
+                        { val < 5 && <Arc
                                 // zIndex={1}
-                                start={[0, 0.965]}
-                                end={[val, 0.965]}
-                                style={{ // 底灰色
-                                    stroke: color[0],
-                                    lineWidth,
-                                }}
-                            />
-                        }
+                            start={[0, 0.965]}
+                            end={[val, 0.965]}
+                            style={{ // 底灰色
+                            stroke: color[0],
+                            lineWidth,
+                            }}
+                        />}
                         <Html
                             position={['50%', '95%']}
                             html={

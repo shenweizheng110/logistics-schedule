@@ -114,3 +114,165 @@ export const isCityUsing = (state: boolean = false, action: any) => {
             return state;
     }
 }
+
+// 手动调度中步骤条的当前步骤
+export const currentStep = (state: number = 0, action: any) => {
+    switch(action.type){
+        case 'CHANGE_CURRENT_STEP':
+            return action.current;
+        default:
+            return state;
+    }
+}
+
+// 车辆表格的 selectedRowKeys
+export const vehicleSelected = (state: any = {
+    selectedRowKeys: [],
+    selectedRows: []
+}, action: any) => {
+    switch(action.type){
+        case 'CHANGE_VEHICLE_SELECTED':
+            return {
+                selectedRowKeys: [...(action.vehicleSelected.selectedRowKeys)],
+                selectedRows: [...(action.vehicleSelected.selectedRows)]
+            }
+        default:
+            return state;
+    }
+}
+
+// 展示分配订单弹窗
+export const isShowAllocatOrderModal = (state: boolean = false, action: any) => {
+    switch(action.type){
+        case 'SHOW_ALLOCAT_ORDER_MODAL':
+            return action.isShowAllocatOrderModal;
+        default:
+            return state
+    }
+}
+
+// 展示分配路线弹窗
+export const isShowAllocatRouteModal = (state: boolean = false, action: any) => {
+    switch(action.type){
+        case 'SHOW_ALLOCAT_ROUTE_MODAL':
+            return action.isShowAllocatRouteModal;
+        default:
+            return state
+    }
+}
+
+// 订单穿梭框的 targetKeys
+export const orderTargetKeys = (state: any = {}, action: any) => {
+    switch(action.type){
+        case 'SET_ORDER_TARGET_KEYS':
+            let orderTargetkeys = action.orderTargetKeys;
+            Object.keys(orderTargetkeys).forEach((keyItem: any) => {
+                state[keyItem] = orderTargetkeys[keyItem];
+            })
+            return state;
+        default:
+            return state;
+    }
+}
+
+// 当前执行分配的车辆
+export const currentAllocatVehicle = (state: string = null, action: any) => {
+    switch(action.type){
+        case 'CURRENT_ALLOCAT_VEHICLE':
+            return action.vehicleLicense;
+        default:
+            return state;
+    }
+}
+
+// 未处理订单列表
+export const orderList = (state: any = [], action: any) => {
+    switch(action.type){
+        case 'SET_ORDERS':
+            return action.orders;
+        default:
+            return state;
+    }
+}
+
+// 为处理订单 json 格式
+export const orderListJson = (state: any = {}, action: any) => {
+    switch(action.type){
+        case 'SET_ORDERS':
+            let res: any = {};
+            action.orders.forEach((item: any) => {
+                res[item.number] = item;
+            })
+            return res;
+        default:
+            return state;
+    }
+}
+
+// 当前选中的项
+export const currentTargetKeys = (state: any = {}, action: any) => {
+    switch(action.type){
+        case 'CURRENT_TARGET_KEYS':
+            return action.currentTargetKeys;
+        default:
+            return state;
+    }
+}
+
+// 车辆路径
+export const vehicleRoute = (state: any = {}, action: any) => {
+    switch(action.type){
+        case 'SET_VEHICLE_ROUTE':
+            return action.vehicleRoute;
+        default:
+            return state;
+    }
+}
+
+// 当前处理的路径
+export const currentVehicleRoute = (state: any = [], action: any) => {
+    switch(action.type){
+        case 'CURRENT_VEHICLE_ROUTE':
+            return action.currentVehicleRoute;
+        default:
+            return state;
+    }
+}
+
+// 页面loading
+export const pageLoading = (state: {
+    isShowPageLoading: boolean,
+    loadingTip: string
+} = {
+    isShowPageLoading: false,
+    loadingTip: 'loading'
+}, action: any) => {
+    switch(action.type){
+        case 'SHOW_PAGE_LOADING':
+            return {
+                ...state,
+                ...(action.pageLoading)
+            };
+        default:
+            return state;
+    }
+}
+
+// 调度概览 图标数据
+export const scheduleIntro = (state: any = {
+    vehicleUsedRate: 0,
+    notLoadRate: 0,
+    costRate: {
+        oilCost: 0,
+        punishCost: 0,
+        peopleCost: 0
+    },
+    undisposedOrderCount: 0
+}, action: any) => {
+    switch(action.type){
+        case 'SET_SCHEDULE_INTRO':
+            return action.scheduleIntro;
+        default:
+            return state;
+    }
+}

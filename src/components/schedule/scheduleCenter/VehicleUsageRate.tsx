@@ -2,10 +2,6 @@ import * as React from 'react';
 import { Chart, Tooltip, Geom, Guide } from 'bizcharts';
 
 const { Text } = Guide;
-const data = [{
-    gender: 'male',
-    value: 50,
-}];
 const scale = {
     value: {
         min: 0,
@@ -13,7 +9,15 @@ const scale = {
     },
 };
 
-const VehicleUsageRate = () => {
+type VehicleUsageRateProps = {
+    vehicleUsageRate: number
+}
+
+const VehicleUsageRate = ({ vehicleUsageRate }: VehicleUsageRateProps) => {
+    const data = [{
+        gender: 'male',
+        value: Math.ceil(vehicleUsageRate),
+    }];
     return (
         <div className='card schedule-center-detail-item'>
             <div className='usage-rate-title'>车辆使用率</div>

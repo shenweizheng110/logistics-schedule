@@ -1,38 +1,42 @@
 import * as React from 'react';
-import { Modal, Input, Select, Button } from 'antd';
-import { useState } from 'react';
+import { Modal, Select, Button } from 'antd';
+import { useEffect } from 'react';
 
 type AllocatRouteModalProps = {
-    isShowModal: boolean,
+    isShowAllocatRouteModal: boolean,
     currentCity: {
         currentCityId: number,
         currentCityName: string,
-    }
+    },
+    cityList: any,
+    currentVehicleRoute: any,
+    handleCloseModal: () => void,
+    getCityList: () => void,
+    changeCurrentVehicleRoute: (currentVehicleRoute: any, value: any, selectIndex: number) => void,
+    addNewSelect: (currentVehicleRoute: any) => void,
+    handleModalSubmit: (currentVehicleRoute: any) => void
 }
 const Option = Select.Option;
 const AllocatRouteModal = ({
-    isShowModal,
-    currentCity
+    isShowAllocatRouteModal,
+    currentCity,
+    currentVehicleRoute,
+    cityList,
+    handleCloseModal,
+    getCityList,
+    changeCurrentVehicleRoute,
+    addNewSelect,
+    handleModalSubmit
 }: AllocatRouteModalProps) => {
-    const [nextCitys, setNextCitys] = useState([]);
-    let testRef: any = null;
-    // 添加下一城市点
-    const addNextCity = () => {
-        setNextCitys([...nextCitys, null])
-    }
-    // 城市下拉框
-    const handleCityChange = (value: any, e: any) => {
-        let nextCityIndex = testRef.props['data-nextCityIndex'];
-        let nextCityCopy = [...nextCitys];
-        nextCityCopy[nextCityIndex] = value;
-        setNextCitys(nextCityCopy);
-    }
+    useEffect(() => {
+        getCityList();
+    },[]);
 
     const modalFooter = (
         <div>
-            <Button type='primary' onClick={addNextCity}>添加</Button>
-            <Button type='default'>取消</Button>
-            <Button type='primary'>确认</Button>
+            <Button type='primary' onClick={() => addNewSelect(currentVehicleRoute)}>添加</Button>
+            <Button type='default' onClick={() => handleModalSubmit(currentVehicleRoute)}>取消</Button>
+            <Button type='primary' onClick={() => handleModalSubmit(currentVehicleRoute)}>确认</Button>
         </div>
     )
 
@@ -40,9 +44,10 @@ const AllocatRouteModal = ({
         <>
             <Modal
                 title='分配路线'
-                visible={isShowModal}
+                visible={isShowAllocatRouteModal}
                 footer={modalFooter}
                 destroyOnClose={true}
+                onCancel={handleCloseModal}
             >
                 <div className='allocat-route-body'>
                     <div className='allocat-route-item allocat-route-start-city'>
@@ -50,21 +55,22 @@ const AllocatRouteModal = ({
                         <span>{currentCity.currentCityName}</span>
                     </div>
                     {
-                        nextCitys.map((nextCityItem: any, nextCityIndex: number) => (
+                        currentVehicleRoute.map((nextCityItem: any, nextCityIndex: number) => (
                             <div className='allocat-route-item'>
                                 <div className='allocat-roue-item-body'>
                                     <span className='route-item-title'>下一城市点：</span>
                                     <Select
                                         value={nextCityItem}
                                         data-nextCityIndex={nextCityIndex}
-                                        onSelect={handleCityChange}
-                                        ref={(sel) => {testRef = sel}}
+                                        onSelect={(value: any) => {
+                                            changeCurrentVehicleRoute(currentVehicleRoute,value, nextCityIndex);
+                                        }}
                                     >
-                                        <Option value='10'>A</Option>
-                                        <Option value='11'>B</Option>
-                                        <Option value='12'>C</Option>
-                                        <Option value='13'>D</Option>
-                                        <Option value='14'>E</Option>
+                                        {
+                                            cityList.map((item: any) => (
+                                                <Option value={item.id}>{item.cityName}</Option>
+                                            ))
+                                        }
                                     </Select>
                                 </div>
                             </div>
