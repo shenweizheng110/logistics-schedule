@@ -276,3 +276,47 @@ export const scheduleIntro = (state: any = {
             return state;
     }
 }
+
+// 当前调度
+export const currentSchedule = (state: any = [], action: any) => {
+    switch(action.type){
+        case 'GET_CURRENT_SCHEDULE':
+            return action.currentSchedule;
+        default:
+            return state
+    }
+}
+
+// 所有的车辆
+export const vehicles = (state: any = [], action: any) => {
+    switch(action.type){
+        case 'SET_ALL_VEHICLE':
+            return action.vehicleList;
+        default:
+            return state
+    }
+}
+
+// 展示调度详情弹窗
+export const isShowScheduleDetailModal = (state: boolean = false, action: any) => {
+    switch(action.type){
+        case 'SHOW_SCHEDULE_DETAIL_MODAL':
+            return action.isShowScheduleDetailModal;
+        default:
+            return state;
+    }
+}
+
+// 调度详细信息
+export const scheduleDetail = (state: any = {
+    drivers: [],
+    routes: [],
+    orders: []
+}, action: any) => {
+    switch(action.type){
+        case 'SCHEDULE_DETAIL':
+            return action.scheduleDetail;
+        default:
+            return state;
+    }
+}

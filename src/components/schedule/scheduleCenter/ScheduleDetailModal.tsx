@@ -3,10 +3,13 @@ import { Modal } from 'antd';
 import { Table } from 'antd';
 
 type scheduleDetailModalProps = {
-    isShowModal: boolean,
-    routes: any,
-    orders: any,
-    drivers: string[]
+    isShowScheduleDetailModal: boolean,
+    scheduleDetail: {
+        orders: any,
+        routes: any,
+        drivers: any
+    },
+    closeModal: () => void
 }
 
 const columns: any = [{
@@ -32,25 +35,25 @@ const columns: any = [{
 }]
 
 const ScheduleDetailModal = ({
-    isShowModal,
-    routes,
-    orders,
-    drivers
+    isShowScheduleDetailModal,
+    scheduleDetail,
+    closeModal
 }: scheduleDetailModalProps) => {
     return (
         <Modal
             title='车辆详情'
             width={720}
-            visible={isShowModal}
+            visible={isShowScheduleDetailModal}
             destroyOnClose={true}
             footer={null}
+            onCancel={closeModal}
         >
             <div className='detail-item'>
                 <div className='schedule-detail-title'>运输路线</div>
                 <div className='schedule-detail-route-body'>
                     {
-                        routes.map((item: string, index: number) => (
-                            <span className='route-item'>{item}</span>
+                        scheduleDetail.routes.map((item: any) => (
+                            <span className='route-item'>{item.cityName}</span>
                         ))
                     }
                 </div>
@@ -59,8 +62,8 @@ const ScheduleDetailModal = ({
                 <div className='schedule-detail-title'>驾驶员</div>
                 <div className='schedule-detail-route-body'>
                     {
-                        drivers.map((item: any, index: number) => (
-                            <span>{item}{index === drivers.length - 1 ? '' : '；'}</span>
+                        scheduleDetail.drivers.map((item: any, index: number) => (
+                            <span>{item.name}{index === scheduleDetail.drivers.length - 1 ? '' : '；'}</span>
                         ))
                     }
                 </div>
@@ -69,7 +72,7 @@ const ScheduleDetailModal = ({
                 <div className='schedule-detail-title'>预处理订单</div>
                 <Table
                     columns={columns}
-                    dataSource={orders}
+                    dataSource={scheduleDetail.orders}
                 />
             </div>
         </Modal>

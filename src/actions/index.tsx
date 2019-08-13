@@ -424,7 +424,8 @@ export const autoSchedule = () => {
                 dispatch(showPageLoading({
                     isShowPageLoading: false,
                     loadingTip: 'loading'
-                }))
+                }));
+                ws.close();
             }else if(res.code === 0){
                 dispatch(showPageLoading({
                     isShowPageLoading: true,
@@ -446,5 +447,98 @@ export const autoSchedule = () => {
         ws.onerror = (error: any) => {
             console.log(error);
         }
+    }
+}
+
+// 当前调度详情
+const getCurrentSchedule = (currentSchedule: any) => ({
+    type: types.GET_CURRENT_SCHEDULE,
+    currentSchedule
+})
+
+// 异步请求获取当前调度详情
+export const getCurrentScheduleAsync = () => {
+    return (dispatch: any) => {
+        axios.get('/api/schedule/current')
+            .then((res: any) => {
+                if(res.data.code === 0){
+                    dispatch(getCurrentSchedule(res.data.data));
+                }else{
+                    dispatch(showMsg({
+                        type: 'success',
+                        msg: res.data.msg
+                    }))
+                }
+            })
+            .catch((error: any) => {
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: error
+                }))
+            })
+    }
+}
+
+// 存储所有的车辆
+const setAllVehicle = (vehicleList: any) => ({
+    type: types.SET_ALL_VEHICLE,
+    vehicleList
+})
+
+// 异步获取所有的车辆
+export const getAllVehicle = () => {
+    return (dispatch: any) => {
+        axios.get('/api/vehicle/all')
+            .then((res: any) => {
+                if(res.data.code === 0){
+                    dispatch(setAllVehicle(res.data.data));
+                }else{
+                    dispatch(showMsg({
+                        type: 'error',
+                        msg: res.data.msg
+                    }))
+                }
+            })
+            .catch((error: any) => {
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: error
+                }))
+            })
+    }
+}
+
+// 展示调度详情弹窗
+export const showScheduleDetailModal = (isShowScheduleDetailModal: boolean) => ({
+    type: types.SHOW_SCHEDULE_DETAIL_MODAL,
+    isShowScheduleDetailModal
+})
+// 调度详细信息
+export const scheduleDetail = (scheduleDetail: any) => ({
+    type: types.SCHEDULE_DETAIL,
+    scheduleDetail
+})
+
+// 获取车辆调度详情
+export const getVehicleSchedule = (vehicleId: number) => {
+    return (dispatch: any) => {
+        axios.get(`/api/schedule/vehicleSchedule/${vehicleId}`)
+            .then((res: any) => {
+                if(res.data.code === 0){
+                    dispatch(scheduleDetail(res.data.data));
+                    dispatch(showScheduleDetailModal(true));
+                }else{
+                    dispatch(showMsg({
+                        type: 'error',
+                        msg: res.data.msg
+                    }))
+                }
+            })
+            .catch((error: any) => {
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: error
+                }))
+            })
     }
 }

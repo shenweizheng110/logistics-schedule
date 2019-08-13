@@ -22,7 +22,11 @@ import {
     vehicleRoute,
     currentVehicleRoute,
     pageLoading,
-    scheduleIntro
+    scheduleIntro,
+    currentSchedule,
+    vehicles,
+    isShowScheduleDetailModal,
+    scheduleDetail
 } from './baseReducer';
 
 export default combineReducers({
@@ -48,5 +52,9 @@ export default combineReducers({
     vehicleRoute,
     currentVehicleRoute,
     pageLoading,
-    scheduleIntro
+    scheduleIntro,
+    currentSchedule,
+    vehicles,
+    isShowScheduleDetailModal,
+    scheduleDetail
 })

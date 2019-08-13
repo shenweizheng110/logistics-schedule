@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import ScheduleCenter from '../../components/schedule/ScheduleCenter';
 import {
     autoSchedule,
-    getScheduleIntro
+    getScheduleIntro,
 } from '../../actions';
 
 const mapStateToProps = (state: any) => ({
     pageLoading: state.pageLoading,
-    scheduleIntro: state.scheduleIntro
+    scheduleIntro: state.scheduleIntro,
 })
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => ({

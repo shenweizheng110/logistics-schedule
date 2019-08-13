@@ -56,3 +56,11 @@ export const SET_VEHICLE_ROUTE = 'SET_VEHICLE_ROUTE';
 export const SHOW_PAGE_LOADING = 'SHOW_PAGE_LOADING';
 // 设置当前调度橄榄 图标数据
 export const SET_SCHEDULE_INTRO = 'SET_SCHEDULE_INTRO';
+// 当前调度详情
+export const GET_CURRENT_SCHEDULE = 'GET_CURRENT_SCHEDULE';
+// 获取所有的车辆
+export const SET_ALL_VEHICLE = 'SET_ALL_VEHICLE';
+// 展示调度详情弹窗
+export const SHOW_SCHEDULE_DETAIL_MODAL = 'SHOW_SCHEDULE_DETAIL_MODAL';
+// 调度详情信息
+export const SCHEDULE_DETAIL = 'SCHEDULE_DETAIL';

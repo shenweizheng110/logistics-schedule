@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Form, Modal, Input, Select, InputNumber } from 'antd';
 import { modalProps } from '../../interfaces';
+import { useEffect } from 'react';
 
 const Option = Select.Option;
 const formItemLayout = {
@@ -14,14 +15,26 @@ const formItemLayout = {
     },
 };
 
+interface DriverAddModalProps extends modalProps{
+    vehicles: any,
+    getAllVehicle: () => void
+}
+
 const DriverAddModal = ({
     isShowModal,
     form,
     modalData,
+    vehicles,
     handleModalSubmit,
-    handleCloseModal
-}: modalProps) => {
+    handleCloseModal,
+    getAllVehicle
+}: DriverAddModalProps) => {
     const { getFieldDecorator } = form;
+
+    useEffect(() => {
+        getAllVehicle();
+    },[])
+
     return (
         <Modal
             visible={isShowModal}
@@ -67,6 +80,24 @@ const DriverAddModal = ({
                             <Select>
                                 <Option value='male'>男性</Option>
                                 <Option value='female'>女性</Option>
+                            </Select>
+                        )
+                    }
+                </Form.Item>
+                <Form.Item label='驾驶车辆'>
+                    {
+                        getFieldDecorator('vehicleId',{
+                            rules: [{
+                                required: true, message: '驾驶车辆不为空'
+                            }],
+                            initialValue: modalData.vehicleId
+                        })(
+                            <Select>
+                                {
+                                    vehicles.map((item: any) => (
+                                        <Option value={item.id}>{item.vehicleLicense}</Option>
+                                    ))
+                                }
                             </Select>
                         )
                     }

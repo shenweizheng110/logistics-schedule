@@ -41,13 +41,10 @@ const DriverFilterPanel= ({
                                     )
                                 }
                             </Form.Item>
-                            <Form.Item label='有无病史' className='select'>
+                            <Form.Item label='驾驶车辆' className='vehicleLicense'>
                                 {
-                                    getFieldDecorator('isMedicalHistory')(
-                                        <Select>
-                                            <Option value='false'>无</Option>
-                                            <Option value='true'>有</Option>
-                                        </Select>
+                                    getFieldDecorator('vehicleLicense')(
+                                        <Input />
                                     )
                                 }
                             </Form.Item>

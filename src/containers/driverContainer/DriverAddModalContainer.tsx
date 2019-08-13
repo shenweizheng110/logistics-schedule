@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import DriverAddModal from '../../components/driver/DriverAddModal';
-import { showModal, setModalData } from '../../actions';
+import { showModal, setModalData, getAllVehicle } from '../../actions';
 import { addAction } from '../../actions/commonAction';
 import { addDriverApi, getDriverListApi } from '../../api';
 
 const mapStateToProps = (state: any) => ({
     isShowModal: state.isShowModal,
-    modalData: state.modalData
+    modalData: state.modalData,
+    vehicles: state.vehicles
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -24,6 +25,10 @@ const mapDispatchToProps = (dispatch: any) => ({
                 form.resetFields();
             }
         })
+    },
+    // 获取所有的车辆
+    getAllVehicle: () => {
+        dispatch(getAllVehicle());
     }
 })
 

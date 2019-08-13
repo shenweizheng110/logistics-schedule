@@ -34,6 +34,10 @@ const DriverTable = ({
         dataIndex: 'pay',
         key: 'pay',
     },{
+        title: '驾驶车辆',
+        dataIndex: 'vehicleLicense',
+        key: 'vehicleLicense',
+    },{
         title: '病史',
         dataIndex: 'isMedicalHistory',
         key: 'isMedicalHistory',
