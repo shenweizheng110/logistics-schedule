@@ -3,6 +3,7 @@ import { Table, Button, message } from 'antd';
 import { VehicleType, VehicleStatus } from '../../../config/enums';
 import { tableProps } from '../../../interfaces';
 import { useEffect } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const columns = [{
     title: '车牌号',
@@ -52,11 +53,12 @@ const columns = [{
     )
 }];
 
-interface VehicleChooseProps extends tableProps {
+
+interface VehicleChooseProps extends tableProps,RouteComponentProps {
     currentStep: number,
     vehicleSelectedRowKeys: string[],
     toNextStep: (current: number) => void,
-    handleRowSelect: (selectedRowKeys: string[], selectedRows: any) => void
+    handleRowSelect: (selectedRowKeys: string[], selectedRows: any) => void,
 }
 
 const VehicleChoose = ({
@@ -69,7 +71,7 @@ const VehicleChoose = ({
     dataSource,
     handleChange,
     toNextStep,
-    handleRowSelect
+    handleRowSelect,
 }: VehicleChooseProps) => {
     useEffect(() => {
         handleChange(1,10);
@@ -114,4 +116,4 @@ const VehicleChoose = ({
     )
 }
 
-export default VehicleChoose;
+export default withRouter(VehicleChoose);

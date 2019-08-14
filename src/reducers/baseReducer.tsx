@@ -320,3 +320,20 @@ export const scheduleDetail = (state: any = {
             return state;
     }
 }
+
+// 当前手动调度
+export const currentManualSchedule = (state: any = {
+    cost: 0,
+    oilCost: 0,
+    driverCost: 0,
+    oilWear: 0,
+    timePunish: 0,
+    vehicleOrder: []
+}, action: any) => {
+    switch(action.type){
+        case 'CURRENT_MANUAL_SCHEDULE':
+            return action.currentManualSchedule;
+        default:
+            return state
+    }
+}

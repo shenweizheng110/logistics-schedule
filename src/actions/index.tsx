@@ -2,15 +2,7 @@ import * as types from '../constants/ActionTypes';
 import axios from '../common/request';
 import { deleteAction, openEditModalAction } from './commonAction';
 import { getCityListApi, deleteCityApi, getCityApi } from '../api';
-import {
-    shortPathByFloyd,
-    allocatPathForVehicle,
-    calCost,
-    minCost,
-    combineVehicleOrderOptimizeConsiderHasTask,
-    fillOriginOrderForCombine
-} from '../arithmetic';
-import util from '../common/util';
+import { Modal } from 'antd';
 
 // 修改筛选面板的开关
 export const changeDropDown = (isUnflod: boolean) => ({
@@ -299,13 +291,19 @@ export const allocatOrderSubmit = (nextTargetKeys: any) => {
         nextTargetKeys.forEach((item: any) => {
             load += orderListJson[item].orderLoad;
             volume += orderListJson[item].orderVolume;
-            midwayCitys = midwayCitys.concat(orderListJson[item].startCityName,orderListJson[item].targetCityName)
+            midwayCitys = midwayCitys.concat({
+                key: orderListJson[item].startCityId,
+                label: orderListJson[item].startCityName
+            },{
+                key: orderListJson[item].targetCityId,
+                label: orderListJson[item].targetCityName
+            })
         })
         vehicleSelectedRows.some((item: any) => {
             if(item.vehicleLicense === currentAllocatVehicle){
                 item.currentLoad = load;
                 item.currentVolume = volume;
-                item.midwayCityNames = midwayCitys;
+                item.midwayCitys = item.originMidwayCitys.concat(midwayCitys);
                 if(load > item.maxLoad || volume > item.maxVolume){
                     errors.push(`车辆${item.vehicleLicense} 超出装载量`);
                 }
@@ -421,6 +419,11 @@ export const autoSchedule = () => {
         ws.onmessage = (e) => {
             let res: any = JSON.parse(e.data);
             if(res.code === 2){
+                dispatch(showMsg({
+                    type: 'success',
+                    msg: '调度成功'
+                }));
+                dispatch(getCurrentScheduleAsync());
                 dispatch(showPageLoading({
                     isShowPageLoading: false,
                     loadingTip: 'loading'
@@ -513,6 +516,7 @@ export const showScheduleDetailModal = (isShowScheduleDetailModal: boolean) => (
     type: types.SHOW_SCHEDULE_DETAIL_MODAL,
     isShowScheduleDetailModal
 })
+
 // 调度详细信息
 export const scheduleDetail = (scheduleDetail: any) => ({
     type: types.SCHEDULE_DETAIL,
@@ -540,5 +544,87 @@ export const getVehicleSchedule = (vehicleId: number) => {
                     msg: error
                 }))
             })
+    }
+}
+
+// 当前手动调度结果
+const setCurrentManualSchedule = (currentManualSchedule: any) => ({
+    type: types.CURRENT_MANUAL_SCHEDULE,
+    currentManualSchedule
+})
+
+// 获取当前手动调度的各个成本
+export const getManualScheduleCost = () => {
+    return (dispatch: any, getState: any) => {
+        let vehicleUsedList = getState().vehicleSelected.selectedRows;
+        let { orderTargetKeys, vehicleRoute, orderListJson } = getState();
+        let combineResult: any = [];
+        vehicleUsedList.forEach((vehicleItem: any) => {
+            let combineItem: any = {
+                vehicleId: vehicleItem.id,
+                orderIds: vehicleItem.originOrderIds,
+                shortPath: [vehicleItem.currentCityId]
+            };
+            // 组合订单
+            if(orderTargetKeys[vehicleItem.vehicleLicense]){
+                let newOrderIds: number[] = [];
+                orderTargetKeys[vehicleItem.vehicleLicense].forEach((orderItem: any) => {
+                    newOrderIds.push(orderListJson[orderItem].orderId);
+                });
+                combineItem.orderIds = combineItem.orderIds.concat(newOrderIds);
+            }
+            // 组合路径
+            vehicleRoute[vehicleItem.vehicleLicense] && vehicleRoute[vehicleItem.vehicleLicense].forEach((cityItem: any) => {
+                combineItem.shortPath.push(cityItem.key);
+            });
+            combineItem.shortPath.push(vehicleItem.finishCityId);
+            combineResult.push(combineItem);
+        });
+        axios.post('/api/schedule/manual/cost',{
+            combineResult: JSON.stringify(combineResult)
+        }).then((res: any) => {
+            if(res.data.code === 0){
+                // console.log(res.data.data);
+                dispatch(setCurrentManualSchedule(res.data.data[0]));
+            }else{
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: res.data.msg
+                }))
+            }
+        }).catch((error: any) => {
+            console.log(error);
+            dispatch(showMsg({
+                type: 'error',
+                msg: error
+            }))
+        })
+    }
+}
+
+// 手动调度的确认
+export const submitManualSchedule = (history: any) => {
+    return (dispatch: any, getState: any) => {
+        axios.post('/api/schedule/manual',{
+            minCostPlan: JSON.stringify(getState().currentManualSchedule)
+        }).then((res: any) => {
+            if(res.data.code === 0){
+                Modal.success({
+                    title: '调度结果',
+                    content: res.data.msg,
+                    onOk: () => {history.push('/console/schedule/center')}
+                })
+            }else{
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: res.data.msg
+                }));
+            }
+        }).catch((error: any) => {
+            dispatch(showMsg({
+                type: 'error',
+                msg: error
+            }));
+        })
     }
 }

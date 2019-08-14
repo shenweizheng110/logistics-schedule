@@ -2,7 +2,10 @@ import { connect } from 'react-redux';
 import VehicleChoose from '../../../components/schedule/scheduleManual/VehicleChoose';
 import { getTableDataAction } from '../../../actions/commonAction';
 import { getVehicleListApi } from '../../../api';
-import { changeCurrentStep, changeVehicleSelected } from '../../../actions';
+import {
+    changeCurrentStep,
+    changeVehicleSelected,
+} from '../../../actions';
 
 const mapStateToProps = (state: any) => {
     let tableData = state.tableData;
@@ -14,14 +17,15 @@ const mapStateToProps = (state: any) => {
         pageSize: pagination.pageSize,
         dataSource: pagination.dataSource,
         vehicleSelectedRowKeys: state.vehicleSelected.selectedRowKeys,
-        currentStep: state.currentStep
+        currentStep: state.currentStep,
     }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
     // 处理表格分页
     handleChange: (page: number, pageSize: number) => {
-        dispatch(getTableDataAction(getVehicleListApi,page,pageSize));
+        dispatch(getTableDataAction(getVehicleListApi, page, pageSize))
+        // dispatch(getCanScheduleVehicle(page, pageSize));
     },
     // 处理下一步
     toNextStep: (current: number) => {
@@ -33,7 +37,7 @@ const mapDispatchToProps = (dispatch: any) => ({
             selectedRowKeys,
             selectedRows
         }));
-    }
+    },
 })
 
 export default connect(

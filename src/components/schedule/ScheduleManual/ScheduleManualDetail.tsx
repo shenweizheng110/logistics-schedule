@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { Table, Divider, Button } from 'antd';
 import { VehicleType, VehicleStatus } from '../../../config/enums';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-type ScheduleManualDetailProps = {
+interface ScheduleManualDetailProps extends RouteComponentProps {
     usedVehicles: any,
     handleOrders: any,
     currentStep: number,
-    toPreStep: (currentStep: number) => void
+    currentManualSchedule: any,
+    toPreStep: (currentStep: number) => void,
+    submitManualSchedule: (history: any) => void
 }
 
 const vehcileColumns = [{
@@ -78,12 +81,15 @@ const orderColumns = [{
     dataIndex: 'targetCityName',
 }]
 
-const ScheduleManualDetail = ({
-    usedVehicles,
-    handleOrders,
-    currentStep,
-    toPreStep
-}: ScheduleManualDetailProps) => {
+const ScheduleManualDetail = (props: ScheduleManualDetailProps) => {
+    let {
+        usedVehicles,
+        handleOrders,
+        currentManualSchedule,
+        currentStep,
+        toPreStep,
+        submitManualSchedule
+    } = props;
     return (
         <>
             <div className='manual-detail-item'>
@@ -91,11 +97,11 @@ const ScheduleManualDetail = ({
                 <div className='manual-detail-item-body'>
                     <div className='detail-body-item'>
                         <span className='cost-label'>总成本</span>
-                        <span className='cost-value'>9890</span>
+                        <span className='cost-value'>{currentManualSchedule.cost}</span>
                     </div>
                     <div className='detail-body-item'>
                         <span className='cost-label'>运输成本</span>
-                        <span className='cost-value'>3409</span>
+                        <span className='cost-value'>{currentManualSchedule.oilCost}</span>
                     </div>
                     <div className='detail-body-item'>
                         <span className='cost-label'>运输占比</span>
@@ -103,7 +109,7 @@ const ScheduleManualDetail = ({
                     </div>
                     <div className='detail-body-item'>
                         <span className='cost-label'>惩罚成本</span>
-                        <span className='cost-value'>800</span>
+                        <span className='cost-value'>{currentManualSchedule.timePunish}</span>
                     </div>
                     <div className='detail-body-item'>
                         <span className='cost-label'>惩罚占比</span>
@@ -111,7 +117,7 @@ const ScheduleManualDetail = ({
                     </div>
                     <div className='detail-body-item'>
                         <span className='cost-label'>人工成本</span>
-                        <span className='cost-value'>582</span>
+                        <span className='cost-value'>{currentManualSchedule.driverCost}</span>
                     </div>
                     <div className='detail-body-item'>
                         <span className='cost-label'>人工占比</span>
@@ -138,20 +144,22 @@ const ScheduleManualDetail = ({
                 <Button
                     type='primary'
                     className='next-step'
-                    onClick={() => toPreStep(--currentStep)}
+                    onClick={() => submitManualSchedule(props.history)}
                 >
-                    下一步
+                    确认
                 </Button>
                 <Button
                     type='primary'
                     className='next-step'
                     onClick={() => toPreStep(--currentStep)}
                 >
-                    确认
+                    上一步
                 </Button>
             </div>
         </>
     )
 }
 
-export default ScheduleManualDetail;
+const ScheduleManualDetailWrapper = withRouter(ScheduleManualDetail);
+
+export default ScheduleManualDetailWrapper;

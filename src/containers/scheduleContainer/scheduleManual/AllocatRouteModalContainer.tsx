@@ -37,12 +37,18 @@ const mapDispatchToProps = (dispatch: any) => ({
     },
     // 处理选择框的选择
     changeCurrentVehicleRoute: (currentVehicleRoute: any, value: any, selectIndex: number) => {
-        currentVehicleRoute[selectIndex] = value;
+        currentVehicleRoute[selectIndex] = {
+            id: value.key,
+            label: value.label
+        };
         dispatch(setCurrentVehicleRoute(currentVehicleRoute));
     },
     // 添加新的下拉框
     addNewSelect: (currentVehicleRoute: any) => {
-        dispatch(setCurrentVehicleRoute([...currentVehicleRoute, null]));
+        dispatch(setCurrentVehicleRoute([...currentVehicleRoute, {
+            key: null,
+            label: null
+        }]));
     },
     // 处理弹窗确认
     handleModalSubmit: (currentVehicleRoute: any) => {

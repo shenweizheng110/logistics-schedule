@@ -3,14 +3,16 @@ import { Steps } from 'antd';
 import VehicleChooseContainer from '../../containers/scheduleContainer/scheduleManual/VehicleChooseContainer';
 import AllocatOrderRouteContainer from '../../containers/scheduleContainer/scheduleManual/AllocatOrderRouteContainer';
 import ScheduleManualDetailContainer from '../../containers/scheduleContainer/scheduleManual/ScheduleManualDetailContainer';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const { Step } = Steps;
-type ScheduleManualProps = {
+interface ScheduleManualProps extends RouteComponentProps {
     currentStep: number,
+    showProps: () => void
 }
 
 const ScheduleManual = ({
-    currentStep
+    currentStep,
 }: ScheduleManualProps) => {
     const stepList = [{
         title: '选择车辆',
@@ -56,4 +58,4 @@ const ScheduleManual = ({
     )
 }
 
-export default ScheduleManual;
+export default withRouter(ScheduleManual);

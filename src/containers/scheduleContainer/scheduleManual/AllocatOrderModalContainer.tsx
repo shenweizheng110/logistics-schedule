@@ -44,7 +44,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     handleOrderChange: (nextTargetCitys: any) => {
         dispatch(currentTargetKeys(nextTargetCitys));
     },
-    // 获取所有状态为为处理的订单
+    // 获取所有状态为未处理的订单
     getAllUndispoedOrders: () => {
         dispatch(getUndisposedOrdes());
     }

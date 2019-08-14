@@ -6,13 +6,15 @@ import AllocatRouteModalContainer from '../../../containers/scheduleContainer/sc
 interface AllocatOrderRouteProps {
     vehicleSelectedRows: any,
     currentStep: number,
-    toNextStep: (current: number) => void,
+    vehicleRoute: any,
+    toNextStep: (current: number, vehicleSelectedRows: any, vehicleRoute: any) => void,
     openAllocatModal: (type: string, vehicleLicense: string) => void
 }
 
 const AllocatOrderRoute = ({
     vehicleSelectedRows,
     currentStep,
+    vehicleRoute,
     toNextStep,
     openAllocatModal
 }: AllocatOrderRouteProps) => {
@@ -39,8 +41,8 @@ const AllocatOrderRoute = ({
         key: 'maxVolume'
     },{
         title: '中途城市点',
-        dataIndex: 'midwayCityNames',
-        key: 'midwayCityNames',
+        dataIndex: 'midwayCitys',
+        key: 'midwayCitys',
         render: (text: any) => (
             <span>
                 {
@@ -48,7 +50,7 @@ const AllocatOrderRoute = ({
                         ? <span>无</span>
                         : text
                         .map((item: any, index: number) => (
-                            <span>{item}{index === text.length - 1 ? '' : '-'}</span>
+                            <span>{item.label}{index === text.length - 1 ? '' : '-'}</span>
                         ))
                 }
             </span>
@@ -83,14 +85,14 @@ const AllocatOrderRoute = ({
                 <Button
                     type='primary'
                     className='next-step'
-                    onClick={() => toNextStep(++currentStep)}
+                    onClick={() => toNextStep(++currentStep, vehicleSelectedRows, vehicleRoute)}
                 >
                     下一步
                 </Button>
                 <Button
                     type='primary'
                     className='next-step'
-                    onClick={() => toNextStep(--currentStep)}
+                    onClick={() => toNextStep(--currentStep, vehicleSelectedRows, vehicleRoute)}
                 >
                     上一步
                 </Button>

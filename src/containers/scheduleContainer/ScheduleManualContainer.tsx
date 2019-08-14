@@ -6,7 +6,7 @@ const mapStatetoProps = (state: any) => ({
     currentStep: state.currentStep
 })
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
     // 修改当前步骤
     changeCurrentStep: (current: number) => {
         dispatch(changeCurrentStep(current));

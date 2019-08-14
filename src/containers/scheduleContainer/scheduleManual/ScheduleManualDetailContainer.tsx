@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import ScheduleManualDetail from '../../../components/schedule/scheduleManual/ScheduleManualDetail';
 import {
-    changeCurrentStep
+    changeCurrentStep,
+    submitManualSchedule
 } from '../../../actions';
 
 const getUsedVehicle = (selectedRows: any) => {
@@ -29,12 +30,18 @@ const getHandleOrder = (orderTargetKeys: any, orderJson: any) => {
 const mapStateToProps = (state: any) => ({
     usedVehicles: getUsedVehicle(state.vehicleSelected.selectedRows),
     handleOrders: getHandleOrder(state.orderTargetKeys, state.orderListJson),
-    currentStep: state.currentStep
+    currentStep: state.currentStep,
+    currentManualSchedule: state.currentManualSchedule
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
+    // 返回上一步
     toPreStep: (currentStep: number) => {
         dispatch(changeCurrentStep(currentStep));
+    },
+    // 处理手动调度的确认
+    submitManualSchedule: (history: any) => {
+        dispatch(submitManualSchedule(history));
     }
 })
 

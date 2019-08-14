@@ -62,6 +62,7 @@ const AllocatRouteModal = ({
                                     <Select
                                         value={nextCityItem}
                                         data-nextCityIndex={nextCityIndex}
+                                        labelInValue={true}
                                         onSelect={(value: any) => {
                                             changeCurrentVehicleRoute(currentVehicleRoute,value, nextCityIndex);
                                         }}
