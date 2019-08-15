@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     handleModalSubmit: (form: any, type: string) => {
         form.validateFieldsAndScroll((errs: any,values: any) => {
             if(!errs){
-                dispatch(addAction(addCityApi, values, getCityListApi));
+                dispatch(addAction(addCityApi, values, getCityListApi, 'city'));
                 // dispatch(getCityDistance());
                 form.resetFields();
             }

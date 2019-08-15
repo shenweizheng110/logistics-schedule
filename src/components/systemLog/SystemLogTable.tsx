@@ -8,6 +8,7 @@ type SystemLogTableProps = {
     page: number,
     total: number,
     pageSize: number,
+    handleChange: (page: number, pageSize: number) => void
 }
 
 const SystemLogTable = ({
@@ -16,27 +17,25 @@ const SystemLogTable = ({
     page,
     total,
     pageSize,
+    handleChange
 }: SystemLogTableProps) => {
+    useEffect(() => {
+        handleChange(1,10);
+    }, []);
     const columns = [{
         title: '日志类型',
         dataIndex: 'logType',
         key: 'logType'
     },{
         title: '标题',
-        dataIndex: 'title',
-        key: 'title'
+        dataIndex: 'logContent',
+        key: 'logContent'
     },{
         title: '时间',
         dataIndex: 'createTime',
-        key: 'createTime'
-    },{
-        title: '操作',
-        dataIndex: 'action',
-        key: 'action',
-        render: (text: string, record: any) => (
-            <span>
-                <a href='javascript:;'>编辑</a>
-            </span>
+        key: 'createTime',
+        render: (text: any) => (
+            <span>{new Date(text).toLocaleString()}</span>
         )
     }];
 

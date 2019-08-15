@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch: any) => ({
         form.validateFieldsAndScroll((errs: any,values: any) => {
             if(!errs){
                 values.orderStatus = 'undisposed';
-                dispatch(addAction(addOrderApi,values,getOrderListApi));
+                dispatch(addAction(addOrderApi,values,getOrderListApi, 'order'));
                 form.resetFields();
             }
         })

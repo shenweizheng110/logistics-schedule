@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     handleModalSubmit: (form: any) => {
         form.validateFieldsAndScroll((errs: any,values: any) => {
             if(!errs){
-                dispatch(addAction(addVehicleApi,values,getVehicleListApi));
+                dispatch(addAction(addVehicleApi,values,getVehicleListApi, 'vehicle'));
                 form.resetFields();
             }
         })

@@ -1,6 +1,6 @@
 import * as types from '../constants/ActionTypes';
 import axios from '../common/request';
-import { deleteAction, openEditModalAction } from './commonAction';
+import { deleteAction, openEditModalAction, recordLog } from './commonAction';
 import { getCityListApi, deleteCityApi, getCityApi } from '../api';
 import { Modal } from 'antd';
 
@@ -152,7 +152,7 @@ export const checkCityStatus = (cityId: number, type: string) => {
                     if(type === 'edit')
                         dispatch(openEditModalAction(getCityApi ,cityId));
                     else
-                        dispatch(deleteAction(deleteCityApi ,cityId, getCityListApi));
+                        dispatch(deleteAction(deleteCityApi ,cityId, getCityListApi, 'city'));
                 }else{
                     dispatch(showMsg({
                         type: 'warn',
@@ -423,6 +423,10 @@ export const autoSchedule = () => {
                     type: 'success',
                     msg: '调度成功'
                 }));
+                dispatch(recordLog({
+                    type: 'schedule',
+                    content: '完成一次自动调度'
+                }))
                 dispatch(getCurrentScheduleAsync());
                 dispatch(showPageLoading({
                     isShowPageLoading: false,
@@ -609,6 +613,10 @@ export const submitManualSchedule = (history: any) => {
             minCostPlan: JSON.stringify(getState().currentManualSchedule)
         }).then((res: any) => {
             if(res.data.code === 0){
+                dispatch(recordLog({
+                    type: 'schedule',
+                    content: '执行了一次手动调度'
+                }))
                 Modal.success({
                     title: '调度结果',
                     content: res.data.msg,

@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     handleModalSubmit: (form: any) => {
         form.validateFieldsAndScroll((errs: any,values: any) => {
             if(!errs){
-                dispatch(addAction(addDriverApi, values, getDriverListApi));
+                dispatch(addAction(addDriverApi, values, getDriverListApi, 'driver'));
                 form.resetFields();
             }
         })

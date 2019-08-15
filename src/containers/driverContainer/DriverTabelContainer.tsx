@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     },
     // 处理删除确认
     handleDelete: (id: number) => {
-        dispatch(deleteAction(deleteDriverApi,id,getDriverListApi));
+        dispatch(deleteAction(deleteDriverApi,id,getDriverListApi, 'driber'));
     },
     // 处理获取当前行记录打开编辑弹窗
     openEditModal: (id: number) => {
