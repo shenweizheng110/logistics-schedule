@@ -337,3 +337,24 @@ export const currentManualSchedule = (state: any = {
             return state
     }
 }
+
+// 当前用户信息
+export const user = (state: any = {
+    id: 1,
+    username: 'test',
+    age: 18,
+    gender: 'male',
+    phone: '15605172209'
+}, action: any) => {
+    switch(action.type){
+        case 'SET_USER':
+            return action.user;
+        case 'CHANGE_USER_INFO':
+            return {
+                ...state,
+                ...(action.userInfo)
+            };
+        default:
+            return state;
+    }
+}

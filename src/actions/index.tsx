@@ -636,3 +636,153 @@ export const submitManualSchedule = (history: any) => {
         })
     }
 }
+
+// 设置当前用户
+export const setUser = (user: any) => ({
+    type: types.SET_USER,
+    user
+})
+
+// 修改用户名
+export const changeUserInfo = (userInfo: any) => ({
+    type: types.CHANGE_USER_INFO,
+    userInfo
+})
+
+// 设置短信code
+export const setPhoneCode = (code: number) => ({
+    type: types.SET_PHONE_CODE,
+    code
+})
+
+// 登录
+export const login = (phone: string, password: string) => {
+    return (dispatch: any) => {
+        axios.post('/api/login/login',{
+            phone,
+            password
+        }).then((res: any) => {
+            if(res.data.code === 0){
+                dispatch(setUser(res.data.data));
+                location.href = location.search
+                    ? location.search.split('?from=')[1]
+                    : '/console/vehicle';
+            }else{
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: res.data.msg
+                }));
+            }
+        }).catch((error: any) => {
+            dispatch(showMsg({
+                type: 'error',
+                msg: error
+            }))
+        })
+    }
+}
+
+// 退出登录
+export const logout = () => {
+    return (dispatch: any) => {
+        axios.get('/api/login/logout')
+            .then((res: any) => {
+                if(res.data.code === 0){
+                    dispatch(setUser({}));
+                }else{
+                    dispatch(showMsg({
+                        type: 'error',
+                        msg: res.data.msg
+                    }))
+                }
+            })
+            .catch((error: any) => {
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: error
+                }))
+            })
+    }
+}
+
+// 检查当前状态
+export const checkLogin = () => {
+    return (dispatch: any) => {
+        axios.get('/api/common/checkLogin')
+            .then((res: any) => {
+                if(res.data.code === 0){
+                    dispatch(setUser(res.data.data));
+                }else{
+                    dispatch(showMsg({
+                        type: 'error',
+                        msg: res.data.msg
+                    }))
+                }
+            })
+            .catch((error: any) => {
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: error
+                }))
+            })
+    }
+}
+
+// 修改用户信息
+export const updateUser = (userInfo: any, type: string) => {
+    return (dispatch: any) => {
+        axios.put(`/api/user/info/${type}`,{
+            ...userInfo
+        })
+            .then((res: any) => {
+                if(res.data.code === 0){
+                    dispatch(showMsg({
+                        type: 'success',
+                        msg: res.data.msg
+                    }))
+                    dispatch(changeUserInfo(userInfo));
+                }else{
+                    dispatch(showMsg({
+                        type: 'error',
+                        msg: res.data.msg
+                    }))
+                }
+            })
+            .catch((error: any) => {
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: error
+                }))
+            })
+    }
+}
+
+// 获取验证码
+export const getCode = (type: string) => {
+    return (dispatch: any) => {
+        axios.get('/api/common/code',{
+            params:{
+                type
+            }
+        })
+            .then((res: any) => {
+                if(res.data.code === 0){
+                    dispatch(showMsg({
+                        type: 'success',
+                        msg: res.data.msg
+                    }))
+                }else{
+                    dispatch(showMsg({
+                        type: 'error',
+                        msg: res.data.msg
+                    }))
+                }
+            })
+            .catch((error: any) => {
+                dispatch(showMsg({
+                    type: 'error',
+                    msg: error
+                }))
+            })
+    }
+}

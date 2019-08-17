@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Layout, Icon, Menu, Avatar, Dropdown } from 'antd';
-import { Route } from 'react-router-dom';
-import { useState } from 'react';
+import { Route, RouteComponentProps } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import VehicleContainer from './vehicleContainer/VehicleContainer';
 import OrderContainer from './orderContainer/OrderContainer';
 import CityContainer from './cityContainer/CityContainer';
@@ -9,13 +9,22 @@ import DriverContainer from './driverContainer/DriverContainer';
 import ScheduleCenterContainer from '../containers/scheduleContainer/ScheduleCenterContainer';
 import ScheduleManualContainer from '../containers/scheduleContainer/ScheduleManualContainer';
 import SystemLogContainer from '../containers/logContainer/LogContainer';
+import User from '../components/user/User';
 
-const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 declare const QINIU: string;
 
-const App = (props: any)=>{
+interface AppProps extends RouteComponentProps {
+    user: any,
+    handleLogout: () => void,
+    initUser: () => void
+}
+
+const App = (props: AppProps)=>{
+    useEffect(() => {
+        props.initUser();
+    }, [])
     const [selectedKeys, setSelectedKeys] = useState([props.location.pathname]);
     const navigate = (e: any) => {
         props.history.push(`${e.key}`);
@@ -23,8 +32,8 @@ const App = (props: any)=>{
     }
     const dropDownMenu = (
         <Menu>
-            <Menu.Item key="personalInfo">个人信息</Menu.Item>
-            <Menu.Item key="logout">退出登陆</Menu.Item>
+            <Menu.Item key="personalInfo" onClick={() => props.history.push('/console/user')}>个人信息</Menu.Item>
+            <Menu.Item key="logout" onClick={() => props.handleLogout()}>退出登陆</Menu.Item>
         </Menu>
     )
     return(
@@ -35,15 +44,24 @@ const App = (props: any)=>{
                         <img src={QINIU + "logo.png"} alt="logo" />
                     </div>
                     <div className='header-right'>
-                        <Dropdown
-                            overlay={dropDownMenu}
-                            overlayStyle={{top: '60px'}}
-                        >
-                            <span>
-                                <Avatar className='avatar' src={QINIU + 'head2.jpg'} size={50} alt='头像' />
-                                <Icon type="down" className='drop-down-icon' />
-                            </span>
-                        </Dropdown>
+                        {
+                            props.user.id
+                                ? <Dropdown
+                                        overlay={dropDownMenu}
+                                        overlayStyle={{top: '60px'}}
+                                    >
+                                        <span>
+                                            <Avatar className='avatar' src={QINIU + 'head2.jpg'} size={50} alt='头像' />
+                                            <Icon type="down" className='drop-down-icon' />
+                                        </span>
+                                    </Dropdown>
+                                : <span
+                                        style={{cursor: 'pointer'}}
+                                        onClick={() => location.href='/login'}
+                                    >
+                                        登录
+                                    </span>
+                        }
                     </div>
                 </Header>
                 <Layout>
@@ -76,6 +94,7 @@ const App = (props: any)=>{
                     </Sider>
                     <Layout>
                         <Content className='content'>
+                            <Route exact path='/console/user' component={User} />
                             <Route exact path='/console/vehicle' component={VehicleContainer} />
                             <Route exact path='/console/order' component={OrderContainer} />
                             <Route exact path='/console/city/:type' component={CityContainer} />

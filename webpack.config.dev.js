@@ -10,7 +10,8 @@ const config = {
     mode: 'development',
     devtool: 'source-map',
     entry: {
-        console: path.resolve(__dirname,'src/console')
+        console: path.resolve(__dirname,'src/console'),
+        login: path.resolve(__dirname,'src/login')
     },
     output: {
         path: path.resolve(__dirname,'dist'),
@@ -31,7 +32,8 @@ const config = {
         historyApiFallback: {
             rewrites: [
                 { from: /^\/$/, to: '/console.html' },
-                { from: /^\/console/, to: '/console.html' }
+                { from: /^\/console/, to: '/console.html' },
+                { from: /^\/login/, to: '/login.html'}
             ]
         }
     },
@@ -96,6 +98,15 @@ const config = {
             favicon: path.resolve(__dirname,'public/favicon.ico'),
             template: path.resolve(__dirname, 'public/console.html'),
             filename: path.resolve(__dirname, 'dist/console.html'),
+            excludeChunks: ['login'],
+            hash: true,
+        }),
+        new HtmlWebpackPlugin({
+            title: '登录',
+            favicon: path.resolve(__dirname,'public/favicon.ico'),
+            template: path.resolve(__dirname, 'public/login.html'),
+            filename: path.resolve(__dirname, 'dist/login.html'),
+            excludeChunks: ['console'],
             hash: true,
         }),
         new HtmlWebpackIncludeAssetsPlugin({

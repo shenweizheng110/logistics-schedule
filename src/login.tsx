@@ -1,20 +1,17 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
-import { LocaleProvider } from 'antd';
-import zhCN from 'antd/lib/locale-provider/zh_CN'
-import '../style/console.less';
-import AppContainer from './containers/AppContainer';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import '../style/login.less';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
 import { message } from 'antd';
-import { showMsg } from './actions'
+import { showMsg } from './actions';
+import LoginContainer from './containers/loginContainer/loginContainer';
 
-const mountNode = document.getElementById('root');
-const AppWrapper = withRouter(AppContainer);
+const mountNode = document.getElementById('login');
 const middleware: any[] = [ thunkMiddleware ];
 
 if (process.env.NODE_ENV !== 'production') {
@@ -54,14 +51,13 @@ store.subscribe(() => {
             msg: null
         }));
     }
-})
+});
 
 ReactDom.render(
     <Provider store={store}>
         <Router>
-            <LocaleProvider locale={zhCN}>
-                <Route path='/console' component={AppWrapper} />
-            </LocaleProvider>
+            <Route exact path='/login' component={LoginContainer} />
         </Router>
     </Provider>
-,mountNode);
+    , mountNode
+)

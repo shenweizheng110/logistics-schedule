@@ -27,7 +27,8 @@ import {
     vehicles,
     isShowScheduleDetailModal,
     scheduleDetail,
-    currentManualSchedule
+    currentManualSchedule,
+    user
 } from './baseReducer';
 
 export default combineReducers({
@@ -58,5 +59,6 @@ export default combineReducers({
     vehicles,
     isShowScheduleDetailModal,
     scheduleDetail,
-    currentManualSchedule
+    currentManualSchedule,
+    user
 })

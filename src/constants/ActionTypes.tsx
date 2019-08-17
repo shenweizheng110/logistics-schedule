@@ -66,3 +66,9 @@ export const SHOW_SCHEDULE_DETAIL_MODAL = 'SHOW_SCHEDULE_DETAIL_MODAL';
 export const SCHEDULE_DETAIL = 'SCHEDULE_DETAIL';
 // 当前手动调度结果
 export const CURRENT_MANUAL_SCHEDULE = 'CURRENT_MANUAL_SCHEDULE';
+// 设置当前用户信息
+export const SET_USER = 'SET_USER';
+// 修改用户基本信息
+export const CHANGE_USER_INFO = 'CHANGE_USER_INFO';
+// 重置手机号的验证嘛
+export const SET_PHONE_CODE = 'SET_PHONE_CODE';

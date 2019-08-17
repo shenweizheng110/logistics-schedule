@@ -4,6 +4,7 @@ import * as qs from 'qs';
 declare const SERVICE: string;
 
 axios.defaults.baseURL = SERVICE;
+axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -35,8 +36,8 @@ axios.interceptors.request.use((config: any): any => {
 
 axios.interceptors.response.use((response: any): any => {
     const { data } = response;
-    if(data.code === -2){
-        console.log('未登陆');
+    if(data.code === 2){
+        window.location.href = `/login?from=${window.location.pathname}`;
     }
     return response;
 }, (error: any) => {
