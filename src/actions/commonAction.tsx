@@ -59,7 +59,7 @@ export const getTableDataAction = (url: string, page: number, pageSize: number) 
                 type: 'error',
                 msg: error
             }));
-        })
+        });
     }
 }
 

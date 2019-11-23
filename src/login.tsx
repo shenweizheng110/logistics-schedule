@@ -10,6 +10,7 @@ import reducer from './reducers';
 import { message } from 'antd';
 import { showMsg } from './actions';
 import LoginContainer from './containers/loginContainer/loginContainer';
+import axios from './common/request';
 
 const mountNode = document.getElementById('login');
 const middleware: any[] = [ thunkMiddleware ];

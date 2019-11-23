@@ -4,16 +4,16 @@
         "@babel/typescript",
         [
             "@babel/env",{
-                "useBuiltIns": "usage",
+                "useBuiltIns": "usage"
             }
         ]
     ],
     "plugins": [
         "@babel/plugin-transform-runtime",
         ["import", {
-        "libraryName": "antd",
-        "libraryDirectory": "es",
-        "style": "css"
+            "libraryName": "antd",
+            "libraryDirectory": "es",
+            "style": "css"
         }],
         ["@babel/plugin-proposal-decorators", {
             "legacy": true
